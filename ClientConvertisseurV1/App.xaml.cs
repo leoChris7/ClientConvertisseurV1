@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using ClientConvertisseurV1.Views;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -41,8 +42,20 @@ namespace ClientConvertisseurV1
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            // Création d'une page main window
             m_window = new MainWindow();
+
+            // gestion de la navigation entre les pages
+            Frame rootFrame = new Frame();
+
+            // On place la frame de navigation sur la mainwindow
+            this.m_window.Content = rootFrame;
+
+            // activation de la mainwindow
             m_window.Activate();
+
+            // navigation vers la page de convertisseurs
+            rootFrame.Navigate(typeof(ConvertisseurEuroPage));
         }
 
         private Window m_window;
