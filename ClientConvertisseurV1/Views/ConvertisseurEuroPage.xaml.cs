@@ -5,65 +5,89 @@ using ClientConvertisseurV1.Services;
 using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using System;
+using System.ComponentModel;
 
 namespace ClientConvertisseurV1.Views
 {
     public sealed partial class ConvertisseurEuroPage : Page
     {
-        public ObservableCollection<Devise> ListeDevises;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public string EuroChoisi
-        {
-            get
-            {
-                return euroChoisi;
-            }
+        private ObservableCollection<Devise> listeDevises;
 
-            set
-            {
-                euroChoisi = value;
-            }
-        }
-
-        public double TauxChange
-        {
-            get
-            {
-                return tauxChange;
-            }
-
-            set
-            {
-                tauxChange = value;
-            }
-        }
-
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-
-            set
-            {
-                this.id = value;
-            }
-        }
-
-        private string euroChoisi;
-        private double tauxChange;
-        private int id;
-        
+        private Devise monnaieChoisi;
+        private double euroAConvertir;
+        private double resultatConverti;
 
         public ConvertisseurEuroPage()
         {
             this.InitializeComponent();
-                
-               
-            // Définissez le DataContext sur cette page pour permettre le binding
-            this.DataContext = this;
             GetDataOnLoadAsync();
+            this.DataContext = this;
+        }
+
+        public ObservableCollection<Devise> ListeDevises
+        {
+            get
+            {
+                return this.listeDevises;
+            }
+
+            set
+            {
+                this.listeDevises = value;
+                OnPropertyChanged(nameof(ListeDevises));
+            }
+        }
+
+        public Devise MonnaieChoisi
+        {
+            get
+            {
+                return monnaieChoisi;
+            }
+
+            set
+            {
+                monnaieChoisi = value;
+                OnPropertyChanged(nameof(MonnaieChoisi));
+            }
+        }
+
+        public double EuroAConvertir
+        {
+            get
+            {
+                return euroAConvertir;
+            }
+
+            set
+            {
+                euroAConvertir = value; 
+                OnPropertyChanged(nameof(EuroAConvertir));
+            }
+        }
+
+        public double ResultatConverti
+        {
+            get
+            {
+                return this.resultatConverti;
+            }
+
+            set
+            {
+                this.resultatConverti = value;
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         private async void MessageAsync(string v1, string v2)
@@ -80,12 +104,27 @@ namespace ClientConvertisseurV1.Views
 
         private async void GetDataOnLoadAsync()
         {
-            WSService service = new WSService("https://localhost:44366/api/");
+            WSService service = new WSService("http://localhost:44366/api/");
             List<Devise> result = await service.GetDevisesAsync("devises");
-            if (result == null)
+            if (result == null) { 
                 MessageAsync("Api non disponible !", "Erreur");
+            }
             else
-                ListeDevises = new ObservableCollection<Devise>(result);
+            { 
+                this.ListeDevises = new ObservableCollection<Devise>(result);
+                this.DataContext = this;
+            }
+        }
+
+        private void bt1_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (this.MonnaieChoisi != null) { 
+                this.ResultatConverti = EuroAConvertir * this.MonnaieChoisi.Taux;
+            } 
+            else
+            {
+                throw new ArgumentNullException("Le monnaie doit être choisie!");
+            }
         }
     }
 }

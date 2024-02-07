@@ -12,12 +12,12 @@ namespace ClientConvertisseurV1.Services
     internal class WSService : IService
     {
         private HttpClient client;
-        public WSService(string URL)
+        public WSService(string urlAPI)
         {
             // création du client
             this.Client = new HttpClient();
             // chemin vers la ressource url
-            this.Client.BaseAddress = new Uri(URL);
+            this.Client.BaseAddress = new Uri(urlAPI);
             this.Client.DefaultRequestHeaders.Accept.Clear();
             this.Client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -42,8 +42,9 @@ namespace ClientConvertisseurV1.Services
             {
                 return await this.Client.GetFromJsonAsync<List<Devise>>(nomControleur);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return null;
             }
         }

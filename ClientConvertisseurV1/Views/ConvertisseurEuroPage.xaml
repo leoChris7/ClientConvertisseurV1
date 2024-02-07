@@ -19,7 +19,8 @@
         <TextBox
             x:Name="tb25"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
-            RelativePanel.Below="tb2" />
+            RelativePanel.Below="tb2"
+            Text="{Binding EuroAConvertir, Mode=TwoWay}" />
         <TextBlock
             x:Name="tb3"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
@@ -28,13 +29,14 @@
         <ComboBox
             x:Name="cb1"
             DisplayMemberPath="NomDevise"
-            ItemsSource="{Binding ListeDevises}"
+            ItemsSource="{Binding ListeDevises, Mode=TwoWay}"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="tb3"
-            SelectedValuePath="Taux" />
+            SelectedItem="{Binding MonnaieChoisi, Mode=TwoWay}" />
 
         <Button
             x:Name="bt1"
+            Click="bt1_Click"
             Content="Cliquer"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="cb1" />
@@ -49,6 +51,7 @@
             IsReadOnly="True"
             PlaceholderText="0"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
-            RelativePanel.Below="tb4" />
+            RelativePanel.Below="tb4"
+            Text="{Binding ResultatConverti, Mode=TwoWay}" />
     </RelativePanel>
 </Page>
