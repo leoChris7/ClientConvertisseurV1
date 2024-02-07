@@ -1,31 +1,91 @@
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using WSConvertisseur.Models;
+using ClientConvertisseurV1.Services;
+using System.Collections.ObjectModel;
+using Windows.UI.Popups;
+using System;
 
 namespace ClientConvertisseurV1.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class ConvertisseurEuroPage : Page
     {
+        public ObservableCollection<Devise> ListeDevises;
+
+        public string EuroChoisi
+        {
+            get
+            {
+                return euroChoisi;
+            }
+
+            set
+            {
+                euroChoisi = value;
+            }
+        }
+
+        public double TauxChange
+        {
+            get
+            {
+                return tauxChange;
+            }
+
+            set
+            {
+                tauxChange = value;
+            }
+        }
+
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                this.id = value;
+            }
+        }
+
+        private string euroChoisi;
+        private double tauxChange;
+        private int id;
+        
+
         public ConvertisseurEuroPage()
         {
             this.InitializeComponent();
+                
+               
+            // Définissez le DataContext sur cette page pour permettre le binding
+            this.DataContext = this;
+            GetDataOnLoadAsync();
+        }
+
+        private async void MessageAsync(string v1, string v2)
+        {
+            ContentDialog message = new ContentDialog
+            {
+                Title = v2,
+                Content = v1,
+                CloseButtonText = "Ok"
+            };
+            message.XamlRoot = this.Content.XamlRoot;
+            ContentDialogResult result = await message.ShowAsync();
+        }
+
+        private async void GetDataOnLoadAsync()
+        {
+            WSService service = new WSService("https://localhost:44366/api/");
+            List<Devise> result = await service.GetDevisesAsync("devises");
+            if (result == null)
+                MessageAsync("Api non disponible !", "Erreur");
+            else
+                ListeDevises = new ObservableCollection<Devise>(result);
         }
     }
 }

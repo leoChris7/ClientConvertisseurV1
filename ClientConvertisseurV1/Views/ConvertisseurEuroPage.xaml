@@ -10,44 +10,45 @@
     mc:Ignorable="d">
 
     <RelativePanel Margin="10,10,10,10">
-        <TextBlock
-            x:Name="tb1"
-            Text="Convertisseur" />
+        <TextBlock x:Name="tb1" Text="Convertisseur" />
         <TextBlock
             x:Name="tb2"
-            RelativePanel.Below="tb1"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="tb1"
             Text="Montant en Euros" />
         <TextBox
             x:Name="tb25"
-            RelativePanel.Below="tb2"
-            RelativePanel.AlignHorizontalCenterWithPanel="True" />
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="tb2" />
         <TextBlock
             x:Name="tb3"
-            RelativePanel.Below="tb25"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="tb25"
             Text="Devise" />
         <ComboBox
             x:Name="cb1"
+            DisplayMemberPath="NomDevise"
+            ItemsSource="{Binding ListeDevises}"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="tb3"
-            RelativePanel.AlignHorizontalCenterWithPanel="True" />
+            SelectedValuePath="Taux" />
 
         <Button
             x:Name="bt1"
-            RelativePanel.Below="cb1"
+            Content="Cliquer"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
-            Content="Cliquer" />
+            RelativePanel.Below="cb1" />
 
         <TextBlock
             x:Name="tb4"
-            RelativePanel.Below="bt1"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="bt1"
             Text="Montant en devises" />
         <TextBox
             x:Name="tb5"
-            RelativePanel.Below="tb4"
-            RelativePanel.AlignHorizontalCenterWithPanel="True"
             IsReadOnly="True"
-            PlaceholderText="0" />
+            PlaceholderText="0"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="tb4" />
     </RelativePanel>
 </Page>

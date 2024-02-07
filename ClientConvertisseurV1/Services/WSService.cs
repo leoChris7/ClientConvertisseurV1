@@ -12,12 +12,12 @@ namespace ClientConvertisseurV1.Services
     internal class WSService : IService
     {
         private HttpClient client;
-        public WSService()
+        public WSService(string URL)
         {
             // création du client
             this.Client = new HttpClient();
             // chemin vers la ressource url
-            this.Client.BaseAddress = new Uri("http://localhost:64195/api/");
+            this.Client.BaseAddress = new Uri(URL);
             this.Client.DefaultRequestHeaders.Accept.Clear();
             this.Client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
