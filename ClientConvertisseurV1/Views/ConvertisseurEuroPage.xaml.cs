@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using System;
 using System.ComponentModel;
+using System.Linq;
+using Microsoft.UI.Xaml;
 
 namespace ClientConvertisseurV1.Views
 {
@@ -13,7 +15,7 @@ namespace ClientConvertisseurV1.Views
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<Devise> listeDevises;
+        private ObservableCollection<Devise> listeDevises = new ObservableCollection<Devise>();
 
         private Devise monnaieChoisi;
         private double euroAConvertir;
@@ -24,6 +26,8 @@ namespace ClientConvertisseurV1.Views
             this.InitializeComponent();
             GetDataOnLoadAsync();
             this.DataContext = this;
+
+            
         }
 
         public ObservableCollection<Devise> ListeDevises
@@ -78,6 +82,7 @@ namespace ClientConvertisseurV1.Views
             set
             {
                 this.resultatConverti = value;
+                OnPropertyChanged(nameof(ResultatConverti)); // Notification de changement de propriété
             }
         }
 
@@ -111,7 +116,10 @@ namespace ClientConvertisseurV1.Views
             }
             else
             { 
-                this.ListeDevises = new ObservableCollection<Devise>(result);
+                foreach(Devise devise in result)
+                {
+                    this.ListeDevises.Add(devise);
+                }
                 this.DataContext = this;
             }
         }
