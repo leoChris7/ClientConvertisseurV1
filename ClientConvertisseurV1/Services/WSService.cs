@@ -12,6 +12,11 @@ namespace ClientConvertisseurV1.Services
     internal class WSService : IService
     {
         private HttpClient client;
+
+        /// <summary>
+        /// Permet de se connecter à une API dont l'URL est précisé en arguments
+        /// </summary>
+        /// <param name="urlAPI">URL de l'API</param>
         public WSService(string urlAPI)
         {
             // création du client
@@ -36,15 +41,22 @@ namespace ClientConvertisseurV1.Services
             }
         }
 
+        /// <summary>
+        /// Récupération des devises depuis l'API
+        /// </summary>
+        /// <param name="nomControleur">nom du controller de l'API (devise)</param>
+        /// <returns>Une liste de devises sauf si exception: null</returns>
         public async Task<List<Devise>> GetDevisesAsync(string nomControleur)
         {
             try
             {
+                // récupération de manière asynchrone, sous format JSON, de toutes les devises
                 return await this.Client.GetFromJsonAsync<List<Devise>>(nomControleur);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                // on affiche l'erreur et on retourne null
+                Console.WriteLine($"Erreur:{e}");
                 return null;
             }
         }

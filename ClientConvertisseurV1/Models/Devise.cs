@@ -58,17 +58,21 @@ namespace WSConvertisseur.Models
             }
         }
 
+        /// <summary>
+        /// Vérification si deux devises sont égales à partir de leur taux et de leur nom.
+        /// </summary>
+        /// <param name="obj">La devise à comparer avec this.</param>
+        /// <returns>True si elles sont égales, False si elle ne le sont pas.</returns>
         public override bool Equals(object? obj)
         {
             Devise nouvelleDevise = ((Devise)obj);
             return this.Taux == nouvelleDevise.Taux && this.NomDevise == nouvelleDevise.NomDevise;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
+        /// <summary>
+        /// Affichage des devises avec l'ID, le nom et le taux dans la console.
+        /// </summary>
+        /// <returns>Une chaîne de caractère contenant toutes les devises.</returns>
         public override string? ToString()
         {
             return this.Id + "\n" + this.NomDevise + "\n" + this.Taux + "\n";
