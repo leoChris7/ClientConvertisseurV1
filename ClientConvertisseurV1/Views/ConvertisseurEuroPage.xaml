@@ -52,7 +52,6 @@
         <TextBox
             x:Name="tb5"
             IsReadOnly="True"
-            PlaceholderText="0"
             RelativePanel.AlignHorizontalCenterWithPanel="True"
             RelativePanel.Below="tb4"
             Text="{Binding ResultatConverti, Mode=TwoWay}" />
